@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollatzConjecture", "CollatzConjecture\CollatzConjecture.csproj", "{CAAB88B8-54FE-4271-B682-C07368474C75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FibonacciSequence", "FibonnaciSequence\FibonacciSequence.csproj", "{9E63DCE8-6A60-4D05-B740-BF7590585504}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FibonacciEvenSum", "FibonacciEvenSum\FibonacciEvenSum.csproj", "{6CB77D2B-D821-4BEF-B6E6-AACFDC7271D1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CAAB88B8-54FE-4271-B682-C07368474C75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAAB88B8-54FE-4271-B682-C07368474C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAAB88B8-54FE-4271-B682-C07368474C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAAB88B8-54FE-4271-B682-C07368474C75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E63DCE8-6A60-4D05-B740-BF7590585504}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E63DCE8-6A60-4D05-B740-BF7590585504}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E63DCE8-6A60-4D05-B740-BF7590585504}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E63DCE8-6A60-4D05-B740-BF7590585504}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CB77D2B-D821-4BEF-B6E6-AACFDC7271D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CB77D2B-D821-4BEF-B6E6-AACFDC7271D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CB77D2B-D821-4BEF-B6E6-AACFDC7271D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CB77D2B-D821-4BEF-B6E6-AACFDC7271D1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
