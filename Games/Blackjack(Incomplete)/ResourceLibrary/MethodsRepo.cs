@@ -8,19 +8,35 @@ namespace ResourceLibrary
 {
     public class MethodsRepo
     {
+        public static string rules = "In Blackjack you play against a dealer. Both of you draw cards in an attempt to get the highest value without going over 21. Whoever has the highest value wins. Both you and the dealer will start with 2 cards. One of the dealer's cards will be face down. You will have an option to take another card (called a \"hit\") or keep the current value you have (called a \"stand\"). Each new card adds to your total. If your total exceeds 21 (called a \"bust\") you automatically lose. When you stop drawing new cards the dealer will reveal their cards and draw until they either beat you or bust. If you get exactly 21 off the first draw you immediately win unless the dealer also has 21. If both you and the dealer end the game with teh same card values a draw is declared and your bet is returned to you.\nPress any key...";
+        public static string difficulty = "easy";
+
         public static decimal Bet(decimal moneyTotal)
         {
             bool validAmt = false; //accepting bet value
             decimal betAmt = 0; //amount of current bet
+            decimal minBet = 5;
+            if (difficulty == "easy")
+            {
+                minBet = 5;
+            }
+            else if (difficulty == "standard")
+            {
+                minBet = 10;
+            }
+            else
+            {
+                minBet = 20;
+            }
 
             do
             {
 
-                Console.Write("Enter bet amount (min $5, max {0:c}): $", moneyTotal > 500 ? "500" : moneyTotal.ToString());
+                Console.Write("Enter bet amount (min {0:c}, max {1:c}): $", minBet, moneyTotal > 500 ? "500" : moneyTotal.ToString());
                 try
                 {
                     betAmt = decimal.Parse(Console.ReadLine());
-                    if (betAmt >= 5 && betAmt <= moneyTotal && betAmt <= 500)
+                    if (betAmt >= minBet && betAmt <= moneyTotal && betAmt <= 500)
                     {
                         Console.Clear();
                         validAmt = true;
@@ -33,7 +49,7 @@ namespace ResourceLibrary
                     }
                     else
                     {
-                            Console.WriteLine("Minimum bet amount is $5.\nPress any key...");
+                            Console.WriteLine("Minimum bet amount is {0:c}.\nPress any key...", minBet);
                             Console.ReadKey();
                             Console.Clear();
                     }
@@ -117,7 +133,7 @@ $$$$$$$  |$$ |\$$$$$$$ |\$$$$$$$\ $$ | \$$\ $$ |\$$$$$$$ |\$$$$$$$\ $$ | \$$\
 
         }//end Intro()
 
-        public static void Menu()
+        public static string Menu()
         {
             bool stayInMenu = true;
 
@@ -140,7 +156,7 @@ $$$$$$$  |$$ |\$$$$$$$ |\$$$$$$$\ $$ | \$$\ $$ |\$$$$$$$ |\$$$$$$$\ $$ | \$$\
                         //TODO Write blackjack rules
                         Console.Clear();
                         Console.Title = "Rules of Blackjack.";
-                        Console.WriteLine("In Blackjack you play against a dealer. Both of you draw cards in an attempt to get the highest value without going over 21. Whoever has the highest value wins. Both you and the dealer will start with 2 cards. One of the dealer's cards will be face down. You will have an option to take another card (called a \"hit\") or keep the current value you have (called a \"stand\").\nPress any key...");
+                        Console.WriteLine(rules);
                         Console.ReadKey();
                         break;
 
@@ -149,8 +165,30 @@ $$$$$$$  |$$ |\$$$$$$$ |\$$$$$$$\ $$ | \$$\ $$ |\$$$$$$$ |\$$$$$$$\ $$ | \$$\
                         //TODO Write a method to select difficulty by adding larger shoes
                         Console.Clear();
                         Console.Title = "Select difficulty";
-                        Console.WriteLine("Difficulty selection goes here.\nPress any key...");
-                        Console.ReadKey();
+                        Console.WriteLine("1) Easy (One deck shoe and low betting minimum)\n2) Standard (Two deck shoe and higher minimum bet)\n3) Hard (Three deck shoe and high minimum bet)");
+                        ConsoleKey difficultyOption = Console.ReadKey(true).Key;
+                        switch (difficultyOption)
+                        {
+                            case ConsoleKey.NumPad1:
+                            case ConsoleKey.D1:
+                                difficulty = "easy";
+                                break;
+                            case ConsoleKey.NumPad2:
+                            case ConsoleKey.D2:
+                                difficulty = "standard";
+                                break;
+                            case ConsoleKey.NumPad3:
+                            case ConsoleKey.D3:
+                                difficulty = "hard";
+                                break;
+                            default:
+                                Console.WriteLine("That was not a valid option.");
+                                difficulty = "easy";
+                                break;
+                        }
+                        Console.WriteLine($"Difficulty set to {difficulty}.");
+                        System.Threading.Thread.Sleep(2000);
+                        Console.Clear();
                         break;
 
                     default:
@@ -158,7 +196,7 @@ $$$$$$$  |$$ |\$$$$$$$ |\$$$$$$$\ $$ | \$$\ $$ |\$$$$$$$ |\$$$$$$$\ $$ | \$$\
                         Console.ReadKey();
                         break;
                 }
-
+                return difficulty;
             } while (stayInMenu);
 
         }//end Menu()

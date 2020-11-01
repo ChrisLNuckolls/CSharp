@@ -12,11 +12,11 @@ namespace Blackjack
         #region Decks & Cards
         //TODO Place multiple deck sets here for difficulty selection
         static List<Card> deck = new List<Card>();
+        static string difficulty = "easy";
         #endregion
 
         static void Main(string[] args)
         {
-            Shuffle();
             List<Card> startList = new List<Card>();
             Player player = new Player(startList);
             Dealer dealer = new Dealer(startList);
@@ -24,13 +24,15 @@ namespace Blackjack
             decimal betAmt = 0;
             bool reload = true; //reload game
             int numHands = 0;
+
             Console.Title = "Blackjack!";
 
             Console.WriteLine(MethodsRepo.Intro());
 
             System.Threading.Thread.Sleep(3000);
 
-            MethodsRepo.Menu();
+            difficulty = MethodsRepo.Menu();
+            Shuffle();
 
             //Game starts here:
             do
@@ -38,8 +40,8 @@ namespace Blackjack
                 numHands++;
                 Console.Title = Title(0, moneyTotal);
 
-                //Shuffle deck if fewer than 26 cards before starting this hand
-                if (deck.Count < 26)
+                //Shuffle deck if fewer than half of starting cards remaining before starting this hand
+                if (difficulty == "easy" && deck.Count < 26 || difficulty == "standard" && deck.Count < 52 || difficulty == "hard" && deck.Count < 78)
                 {
                     Console.Write("Shuffling deck");
                     for (int i = 0; i < 3; i++)
@@ -224,7 +226,9 @@ namespace Blackjack
                 }
             } while (reload);
 
-            Console.WriteLine("You played {0} hands.", numHands);
+            Console.WriteLine("You played {0} hand{1}.", 
+                numHands,
+                numHands == 1 ? "" : "s");
 
         }//end Main()
 
@@ -239,62 +243,338 @@ namespace Blackjack
         static void Shuffle()
         {
             deck.Clear();
-            deck = new List<Card>()
+            if (difficulty == "hard")
             {
-            new Card(1, Suit.Clubs, "Ace"),
-            new Card(2, Suit.Clubs, "Two"),
-            new Card(3, Suit.Clubs, "Three"),
-            new Card(4, Suit.Clubs, "Four"),
-            new Card(5, Suit.Clubs, "Five"),
-            new Card(6, Suit.Clubs, "Six"),
-            new Card(7, Suit.Clubs, "Seven"),
-            new Card(8, Suit.Clubs, "Eight"),
-            new Card(9, Suit.Clubs, "Nine"),
-            new Card(10, Suit.Clubs, "Ten"), //10
-            new Card(10, Suit.Clubs, "Jack"), //Jack
-            new Card(10, Suit.Clubs, "Queen"), //Queen
-            new Card(10, Suit.Clubs, "King"), //King
-            new Card(1, Suit.Diamonds, "Ace"),
-            new Card(2, Suit.Diamonds, "Two"),
-            new Card(3, Suit.Diamonds, "Three"),
-            new Card(4, Suit.Diamonds, "Four"),
-            new Card(5, Suit.Diamonds, "Five"),
-            new Card(6, Suit.Diamonds, "Six"),
-            new Card(7, Suit.Diamonds, "Seven"),
-            new Card(8, Suit.Diamonds, "Eight"),
-            new Card(9, Suit.Diamonds, "Nine"),
-            new Card(10, Suit.Diamonds, "Ten"),  //10
-            new Card(10, Suit.Diamonds, "Jack"),  //Jack
-            new Card(10, Suit.Diamonds, "Queen"), //Queen
-            new Card(10, Suit.Diamonds, "King"), //King
-            new Card(1, Suit.Hearts, "Ace"),
-            new Card(2, Suit.Hearts, "Two"),
-            new Card(3, Suit.Hearts, "Three"),
-            new Card(4, Suit.Hearts, "Four"),
-            new Card(5, Suit.Hearts, "Five"),
-            new Card(6, Suit.Hearts, "Six"),
-            new Card(7, Suit.Hearts, "Seven"),
-            new Card(8, Suit.Hearts, "Eight"),
-            new Card(9, Suit.Hearts, "Nine"),
-            new Card(10, Suit.Hearts, "Ten"),   //10
-            new Card(10, Suit.Hearts, "Jack"),  //Jack
-            new Card(10, Suit.Hearts, "Queen"), //Queen
-            new Card(10, Suit.Hearts, "King"),  //King
-            new Card(1, Suit.Spades, "Ace"),
-            new Card(2, Suit.Spades, "Two"),
-            new Card(3, Suit.Spades, "Three"),
-            new Card(4, Suit.Spades, "Four"),
-            new Card(5, Suit.Spades, "Five"),
-            new Card(6, Suit.Spades, "Six"),
-            new Card(7, Suit.Spades, "Seven"),
-            new Card(8, Suit.Spades, "Eight"),
-            new Card(9, Suit.Spades, "Nine"),
-            new Card(10, Suit.Spades, "Ten"),   //10
-            new Card(10, Suit.Spades, "Jack"),  //Jack
-            new Card(10, Suit.Spades, "Queen"), //Queen
-            new Card(10, Suit.Spades, "King"),  //King
-            };
+                deck = new List<Card>()
+                {
+                    new Card(1, Suit.Clubs, "Ace"),
+                    new Card(2, Suit.Clubs, "Two"),
+                    new Card(3, Suit.Clubs, "Three"),
+                    new Card(4, Suit.Clubs, "Four"),
+                    new Card(5, Suit.Clubs, "Five"),
+                    new Card(6, Suit.Clubs, "Six"),
+                    new Card(7, Suit.Clubs, "Seven"),
+                    new Card(8, Suit.Clubs, "Eight"),
+                    new Card(9, Suit.Clubs, "Nine"),
+                    new Card(10, Suit.Clubs, "Ten"), //10
+                    new Card(10, Suit.Clubs, "Jack"), //Jack
+                    new Card(10, Suit.Clubs, "Queen"), //Queen
+                    new Card(10, Suit.Clubs, "King"), //King
+                    new Card(1, Suit.Diamonds, "Ace"),
+                    new Card(2, Suit.Diamonds, "Two"),
+                    new Card(3, Suit.Diamonds, "Three"),
+                    new Card(4, Suit.Diamonds, "Four"),
+                    new Card(5, Suit.Diamonds, "Five"),
+                    new Card(6, Suit.Diamonds, "Six"),
+                    new Card(7, Suit.Diamonds, "Seven"),
+                    new Card(8, Suit.Diamonds, "Eight"),
+                    new Card(9, Suit.Diamonds, "Nine"),
+                    new Card(10, Suit.Diamonds, "Ten"),  //10
+                    new Card(10, Suit.Diamonds, "Jack"),  //Jack
+                    new Card(10, Suit.Diamonds, "Queen"), //Queen
+                    new Card(10, Suit.Diamonds, "King"), //King
+                    new Card(1, Suit.Hearts, "Ace"),
+                    new Card(2, Suit.Hearts, "Two"),
+                    new Card(3, Suit.Hearts, "Three"),
+                    new Card(4, Suit.Hearts, "Four"),
+                    new Card(5, Suit.Hearts, "Five"),
+                    new Card(6, Suit.Hearts, "Six"),
+                    new Card(7, Suit.Hearts, "Seven"),
+                    new Card(8, Suit.Hearts, "Eight"),
+                    new Card(9, Suit.Hearts, "Nine"),
+                    new Card(10, Suit.Hearts, "Ten"),   //10
+                    new Card(10, Suit.Hearts, "Jack"),  //Jack
+                    new Card(10, Suit.Hearts, "Queen"), //Queen
+                    new Card(10, Suit.Hearts, "King"),  //King
+                    new Card(1, Suit.Spades, "Ace"),
+                    new Card(2, Suit.Spades, "Two"),
+                    new Card(3, Suit.Spades, "Three"),
+                    new Card(4, Suit.Spades, "Four"),
+                    new Card(5, Suit.Spades, "Five"),
+                    new Card(6, Suit.Spades, "Six"),
+                    new Card(7, Suit.Spades, "Seven"),
+                    new Card(8, Suit.Spades, "Eight"),
+                    new Card(9, Suit.Spades, "Nine"),
+                    new Card(10, Suit.Spades, "Ten"),   //10
+                    new Card(10, Suit.Spades, "Jack"),  //Jack
+                    new Card(10, Suit.Spades, "Queen"), //Queen
+                    new Card(10, Suit.Spades, "King"),  //King
+                    new Card(1, Suit.Clubs, "Ace"),
+                    new Card(2, Suit.Clubs, "Two"),
+                    new Card(3, Suit.Clubs, "Three"),
+                    new Card(4, Suit.Clubs, "Four"),
+                    new Card(5, Suit.Clubs, "Five"),
+                    new Card(6, Suit.Clubs, "Six"),
+                    new Card(7, Suit.Clubs, "Seven"),
+                    new Card(8, Suit.Clubs, "Eight"),
+                    new Card(9, Suit.Clubs, "Nine"),
+                    new Card(10, Suit.Clubs, "Ten"), //10
+                    new Card(10, Suit.Clubs, "Jack"), //Jack
+                    new Card(10, Suit.Clubs, "Queen"), //Queen
+                    new Card(10, Suit.Clubs, "King"), //King
+                    new Card(1, Suit.Diamonds, "Ace"),
+                    new Card(2, Suit.Diamonds, "Two"),
+                    new Card(3, Suit.Diamonds, "Three"),
+                    new Card(4, Suit.Diamonds, "Four"),
+                    new Card(5, Suit.Diamonds, "Five"),
+                    new Card(6, Suit.Diamonds, "Six"),
+                    new Card(7, Suit.Diamonds, "Seven"),
+                    new Card(8, Suit.Diamonds, "Eight"),
+                    new Card(9, Suit.Diamonds, "Nine"),
+                    new Card(10, Suit.Diamonds, "Ten"),  //10
+                    new Card(10, Suit.Diamonds, "Jack"),  //Jack
+                    new Card(10, Suit.Diamonds, "Queen"), //Queen
+                    new Card(10, Suit.Diamonds, "King"), //King
+                    new Card(1, Suit.Hearts, "Ace"),
+                    new Card(2, Suit.Hearts, "Two"),
+                    new Card(3, Suit.Hearts, "Three"),
+                    new Card(4, Suit.Hearts, "Four"),
+                    new Card(5, Suit.Hearts, "Five"),
+                    new Card(6, Suit.Hearts, "Six"),
+                    new Card(7, Suit.Hearts, "Seven"),
+                    new Card(8, Suit.Hearts, "Eight"),
+                    new Card(9, Suit.Hearts, "Nine"),
+                    new Card(10, Suit.Hearts, "Ten"),   //10
+                    new Card(10, Suit.Hearts, "Jack"),  //Jack
+                    new Card(10, Suit.Hearts, "Queen"), //Queen
+                    new Card(10, Suit.Hearts, "King"),  //King
+                    new Card(1, Suit.Spades, "Ace"),
+                    new Card(2, Suit.Spades, "Two"),
+                    new Card(3, Suit.Spades, "Three"),
+                    new Card(4, Suit.Spades, "Four"),
+                    new Card(5, Suit.Spades, "Five"),
+                    new Card(6, Suit.Spades, "Six"),
+                    new Card(7, Suit.Spades, "Seven"),
+                    new Card(8, Suit.Spades, "Eight"),
+                    new Card(9, Suit.Spades, "Nine"),
+                    new Card(10, Suit.Spades, "Ten"),   //10
+                    new Card(10, Suit.Spades, "Jack"),  //Jack
+                    new Card(10, Suit.Spades, "Queen"), //Queen
+                    new Card(10, Suit.Spades, "King"),  //King
+                    new Card(1, Suit.Clubs, "Ace"),
+                    new Card(2, Suit.Clubs, "Two"),
+                    new Card(3, Suit.Clubs, "Three"),
+                    new Card(4, Suit.Clubs, "Four"),
+                    new Card(5, Suit.Clubs, "Five"),
+                    new Card(6, Suit.Clubs, "Six"),
+                    new Card(7, Suit.Clubs, "Seven"),
+                    new Card(8, Suit.Clubs, "Eight"),
+                    new Card(9, Suit.Clubs, "Nine"),
+                    new Card(10, Suit.Clubs, "Ten"), //10
+                    new Card(10, Suit.Clubs, "Jack"), //Jack
+                    new Card(10, Suit.Clubs, "Queen"), //Queen
+                    new Card(10, Suit.Clubs, "King"), //King
+                    new Card(1, Suit.Diamonds, "Ace"),
+                    new Card(2, Suit.Diamonds, "Two"),
+                    new Card(3, Suit.Diamonds, "Three"),
+                    new Card(4, Suit.Diamonds, "Four"),
+                    new Card(5, Suit.Diamonds, "Five"),
+                    new Card(6, Suit.Diamonds, "Six"),
+                    new Card(7, Suit.Diamonds, "Seven"),
+                    new Card(8, Suit.Diamonds, "Eight"),
+                    new Card(9, Suit.Diamonds, "Nine"),
+                    new Card(10, Suit.Diamonds, "Ten"),  //10
+                    new Card(10, Suit.Diamonds, "Jack"),  //Jack
+                    new Card(10, Suit.Diamonds, "Queen"), //Queen
+                    new Card(10, Suit.Diamonds, "King"), //King
+                    new Card(1, Suit.Hearts, "Ace"),
+                    new Card(2, Suit.Hearts, "Two"),
+                    new Card(3, Suit.Hearts, "Three"),
+                    new Card(4, Suit.Hearts, "Four"),
+                    new Card(5, Suit.Hearts, "Five"),
+                    new Card(6, Suit.Hearts, "Six"),
+                    new Card(7, Suit.Hearts, "Seven"),
+                    new Card(8, Suit.Hearts, "Eight"),
+                    new Card(9, Suit.Hearts, "Nine"),
+                    new Card(10, Suit.Hearts, "Ten"),   //10
+                    new Card(10, Suit.Hearts, "Jack"),  //Jack
+                    new Card(10, Suit.Hearts, "Queen"), //Queen
+                    new Card(10, Suit.Hearts, "King"),  //King
+                    new Card(1, Suit.Spades, "Ace"),
+                    new Card(2, Suit.Spades, "Two"),
+                    new Card(3, Suit.Spades, "Three"),
+                    new Card(4, Suit.Spades, "Four"),
+                    new Card(5, Suit.Spades, "Five"),
+                    new Card(6, Suit.Spades, "Six"),
+                    new Card(7, Suit.Spades, "Seven"),
+                    new Card(8, Suit.Spades, "Eight"),
+                    new Card(9, Suit.Spades, "Nine"),
+                    new Card(10, Suit.Spades, "Ten"),   //10
+                    new Card(10, Suit.Spades, "Jack"),  //Jack
+                    new Card(10, Suit.Spades, "Queen"), //Queen
+                    new Card(10, Suit.Spades, "King"),  //King
+                };
 
+            }
+            else if (difficulty == "standard")
+            {
+                deck = new List<Card>()
+                {
+                    new Card(1, Suit.Clubs, "Ace"),
+                    new Card(2, Suit.Clubs, "Two"),
+                    new Card(3, Suit.Clubs, "Three"),
+                    new Card(4, Suit.Clubs, "Four"),
+                    new Card(5, Suit.Clubs, "Five"),
+                    new Card(6, Suit.Clubs, "Six"),
+                    new Card(7, Suit.Clubs, "Seven"),
+                    new Card(8, Suit.Clubs, "Eight"),
+                    new Card(9, Suit.Clubs, "Nine"),
+                    new Card(10, Suit.Clubs, "Ten"), //10
+                    new Card(10, Suit.Clubs, "Jack"), //Jack
+                    new Card(10, Suit.Clubs, "Queen"), //Queen
+                    new Card(10, Suit.Clubs, "King"), //King
+                    new Card(1, Suit.Diamonds, "Ace"),
+                    new Card(2, Suit.Diamonds, "Two"),
+                    new Card(3, Suit.Diamonds, "Three"),
+                    new Card(4, Suit.Diamonds, "Four"),
+                    new Card(5, Suit.Diamonds, "Five"),
+                    new Card(6, Suit.Diamonds, "Six"),
+                    new Card(7, Suit.Diamonds, "Seven"),
+                    new Card(8, Suit.Diamonds, "Eight"),
+                    new Card(9, Suit.Diamonds, "Nine"),
+                    new Card(10, Suit.Diamonds, "Ten"),  //10
+                    new Card(10, Suit.Diamonds, "Jack"),  //Jack
+                    new Card(10, Suit.Diamonds, "Queen"), //Queen
+                    new Card(10, Suit.Diamonds, "King"), //King
+                    new Card(1, Suit.Hearts, "Ace"),
+                    new Card(2, Suit.Hearts, "Two"),
+                    new Card(3, Suit.Hearts, "Three"),
+                    new Card(4, Suit.Hearts, "Four"),
+                    new Card(5, Suit.Hearts, "Five"),
+                    new Card(6, Suit.Hearts, "Six"),
+                    new Card(7, Suit.Hearts, "Seven"),
+                    new Card(8, Suit.Hearts, "Eight"),
+                    new Card(9, Suit.Hearts, "Nine"),
+                    new Card(10, Suit.Hearts, "Ten"),   //10
+                    new Card(10, Suit.Hearts, "Jack"),  //Jack
+                    new Card(10, Suit.Hearts, "Queen"), //Queen
+                    new Card(10, Suit.Hearts, "King"),  //King
+                    new Card(1, Suit.Spades, "Ace"),
+                    new Card(2, Suit.Spades, "Two"),
+                    new Card(3, Suit.Spades, "Three"),
+                    new Card(4, Suit.Spades, "Four"),
+                    new Card(5, Suit.Spades, "Five"),
+                    new Card(6, Suit.Spades, "Six"),
+                    new Card(7, Suit.Spades, "Seven"),
+                    new Card(8, Suit.Spades, "Eight"),
+                    new Card(9, Suit.Spades, "Nine"),
+                    new Card(10, Suit.Spades, "Ten"),   //10
+                    new Card(10, Suit.Spades, "Jack"),  //Jack
+                    new Card(10, Suit.Spades, "Queen"), //Queen
+                    new Card(10, Suit.Spades, "King"),  //King
+                    new Card(1, Suit.Clubs, "Ace"),
+                    new Card(2, Suit.Clubs, "Two"),
+                    new Card(3, Suit.Clubs, "Three"),
+                    new Card(4, Suit.Clubs, "Four"),
+                    new Card(5, Suit.Clubs, "Five"),
+                    new Card(6, Suit.Clubs, "Six"),
+                    new Card(7, Suit.Clubs, "Seven"),
+                    new Card(8, Suit.Clubs, "Eight"),
+                    new Card(9, Suit.Clubs, "Nine"),
+                    new Card(10, Suit.Clubs, "Ten"), //10
+                    new Card(10, Suit.Clubs, "Jack"), //Jack
+                    new Card(10, Suit.Clubs, "Queen"), //Queen
+                    new Card(10, Suit.Clubs, "King"), //King
+                    new Card(1, Suit.Diamonds, "Ace"),
+                    new Card(2, Suit.Diamonds, "Two"),
+                    new Card(3, Suit.Diamonds, "Three"),
+                    new Card(4, Suit.Diamonds, "Four"),
+                    new Card(5, Suit.Diamonds, "Five"),
+                    new Card(6, Suit.Diamonds, "Six"),
+                    new Card(7, Suit.Diamonds, "Seven"),
+                    new Card(8, Suit.Diamonds, "Eight"),
+                    new Card(9, Suit.Diamonds, "Nine"),
+                    new Card(10, Suit.Diamonds, "Ten"),  //10
+                    new Card(10, Suit.Diamonds, "Jack"),  //Jack
+                    new Card(10, Suit.Diamonds, "Queen"), //Queen
+                    new Card(10, Suit.Diamonds, "King"), //King
+                    new Card(1, Suit.Hearts, "Ace"),
+                    new Card(2, Suit.Hearts, "Two"),
+                    new Card(3, Suit.Hearts, "Three"),
+                    new Card(4, Suit.Hearts, "Four"),
+                    new Card(5, Suit.Hearts, "Five"),
+                    new Card(6, Suit.Hearts, "Six"),
+                    new Card(7, Suit.Hearts, "Seven"),
+                    new Card(8, Suit.Hearts, "Eight"),
+                    new Card(9, Suit.Hearts, "Nine"),
+                    new Card(10, Suit.Hearts, "Ten"),   //10
+                    new Card(10, Suit.Hearts, "Jack"),  //Jack
+                    new Card(10, Suit.Hearts, "Queen"), //Queen
+                    new Card(10, Suit.Hearts, "King"),  //King
+                    new Card(1, Suit.Spades, "Ace"),
+                    new Card(2, Suit.Spades, "Two"),
+                    new Card(3, Suit.Spades, "Three"),
+                    new Card(4, Suit.Spades, "Four"),
+                    new Card(5, Suit.Spades, "Five"),
+                    new Card(6, Suit.Spades, "Six"),
+                    new Card(7, Suit.Spades, "Seven"),
+                    new Card(8, Suit.Spades, "Eight"),
+                    new Card(9, Suit.Spades, "Nine"),
+                    new Card(10, Suit.Spades, "Ten"),   //10
+                    new Card(10, Suit.Spades, "Jack"),  //Jack
+                    new Card(10, Suit.Spades, "Queen"), //Queen
+                    new Card(10, Suit.Spades, "King"),  //King
+                };
+            }
+            else
+            {
+                deck = new List<Card>()
+                {
+                    new Card(1, Suit.Clubs, "Ace"),
+                    new Card(2, Suit.Clubs, "Two"),
+                    new Card(3, Suit.Clubs, "Three"),
+                    new Card(4, Suit.Clubs, "Four"),
+                    new Card(5, Suit.Clubs, "Five"),
+                    new Card(6, Suit.Clubs, "Six"),
+                    new Card(7, Suit.Clubs, "Seven"),
+                    new Card(8, Suit.Clubs, "Eight"),
+                    new Card(9, Suit.Clubs, "Nine"),
+                    new Card(10, Suit.Clubs, "Ten"), //10
+                    new Card(10, Suit.Clubs, "Jack"), //Jack
+                    new Card(10, Suit.Clubs, "Queen"), //Queen
+                    new Card(10, Suit.Clubs, "King"), //King
+                    new Card(1, Suit.Diamonds, "Ace"),
+                    new Card(2, Suit.Diamonds, "Two"),
+                    new Card(3, Suit.Diamonds, "Three"),
+                    new Card(4, Suit.Diamonds, "Four"),
+                    new Card(5, Suit.Diamonds, "Five"),
+                    new Card(6, Suit.Diamonds, "Six"),
+                    new Card(7, Suit.Diamonds, "Seven"),
+                    new Card(8, Suit.Diamonds, "Eight"),
+                    new Card(9, Suit.Diamonds, "Nine"),
+                    new Card(10, Suit.Diamonds, "Ten"),  //10
+                    new Card(10, Suit.Diamonds, "Jack"),  //Jack
+                    new Card(10, Suit.Diamonds, "Queen"), //Queen
+                    new Card(10, Suit.Diamonds, "King"), //King
+                    new Card(1, Suit.Hearts, "Ace"),
+                    new Card(2, Suit.Hearts, "Two"),
+                    new Card(3, Suit.Hearts, "Three"),
+                    new Card(4, Suit.Hearts, "Four"),
+                    new Card(5, Suit.Hearts, "Five"),
+                    new Card(6, Suit.Hearts, "Six"),
+                    new Card(7, Suit.Hearts, "Seven"),
+                    new Card(8, Suit.Hearts, "Eight"),
+                    new Card(9, Suit.Hearts, "Nine"),
+                    new Card(10, Suit.Hearts, "Ten"),   //10
+                    new Card(10, Suit.Hearts, "Jack"),  //Jack
+                    new Card(10, Suit.Hearts, "Queen"), //Queen
+                    new Card(10, Suit.Hearts, "King"),  //King
+                    new Card(1, Suit.Spades, "Ace"),
+                    new Card(2, Suit.Spades, "Two"),
+                    new Card(3, Suit.Spades, "Three"),
+                    new Card(4, Suit.Spades, "Four"),
+                    new Card(5, Suit.Spades, "Five"),
+                    new Card(6, Suit.Spades, "Six"),
+                    new Card(7, Suit.Spades, "Seven"),
+                    new Card(8, Suit.Spades, "Eight"),
+                    new Card(9, Suit.Spades, "Nine"),
+                    new Card(10, Suit.Spades, "Ten"),   //10
+                    new Card(10, Suit.Spades, "Jack"),  //Jack
+                    new Card(10, Suit.Spades, "Queen"), //Queen
+                    new Card(10, Suit.Spades, "King"),  //King
+                };
+
+            }
         }//end Shuffle()
 
         static string Title(decimal betAmt, decimal moneyTotal)
