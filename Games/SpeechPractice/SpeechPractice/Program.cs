@@ -107,6 +107,7 @@ namespace SpeechPractice
                                 {
                                     if (i != 0)
                                     {
+                                        talk.SpeakAsync(i.ToString());
                                         Console.WriteLine($"{i}...");
                                         System.Threading.Thread.Sleep(1000);
                                     }
@@ -114,7 +115,9 @@ namespace SpeechPractice
                                 }
                                 Console.Clear();
                                 Console.WriteLine(boom);
-                                SoundPlayer sound = new SoundPlayer(@"E:\Professional Docs\Portfolio\Games\WarGames\SpeechPractice\SpeechPractice\Sounds\Atomic_Bomb-Sound_Explorer-897730679.wav");
+                                SoundPlayer sound = new SoundPlayer();
+                                sound.SoundLocation = @"C:\Users\ChrisN\Desktop\GitHub\CSharp\Games\SpeechPractice\SpeechPractice\Sounds\Atomic_Bomb-Sound_Explorer-897730679.wav";
+                                //TODO Make the file path dynamic
                                 sound.PlaySync();
                                 Console.WriteLine("GAME OVER");
                                 exit = true;

@@ -158,6 +158,7 @@ namespace HangMan
                 {
                     Console.WriteLine(displays[errors]);
                     exit = true;
+                    Console.WriteLine($"You lose! The word was {word}.\nTotal guesses: {chosenLetters.Length}");
                     Console.WriteLine("GAME OVER");
                 }//end else
             } while (!exit);//end do while
