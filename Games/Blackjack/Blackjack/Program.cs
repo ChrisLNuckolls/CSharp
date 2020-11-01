@@ -10,7 +10,8 @@ namespace Blackjack
     class Program
     {
         #region Decks & Cards
-        //TODO Place multiple deck sets here for difficulty selection
+        //TODO Add functionality to turn Aces into one or eleven
+        //TODO Add ability to double down
         static List<Card> deck = new List<Card>();
         static string difficulty = "easy";
         #endregion
