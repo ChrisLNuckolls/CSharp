@@ -10,70 +10,152 @@ namespace StudentPairingTool
     {
         static void Main(string[] args)
         {
-            List<string> studentList = new List<string>();
-            bool exit = false;
-            int studentQuantity;
-            Random rand = new Random();
-            List<string> studentGroups = new List<string>();
-            int count = 1;
-
+            bool endProgram = false;
             do
             {
-                Console.Write("Enter number of students: ");
-                bool isValid = int.TryParse(Console.ReadLine(), out studentQuantity);
-                if (isValid)
-                {
-                    exit = true;
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine("That is not a valid number.\n");
-                }
-            } while (!exit);
+                Console.Title = "Student Pairing Tool";
+                List<string> studentList = new List<string>();
+                List<string> studentGroups = new List<string>();
+                bool exit = false;
+                int studentQuantity;
 
-            Console.Clear();
+                do
+                {
+                    Console.Write("Enter number of students: ");
+                    bool isValid = int.TryParse(Console.ReadLine(), out studentQuantity);
+                    if (isValid)
+                    {
+                        exit = true;
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("That is not a valid number.\n");
+                    }
+                } while (!exit);
 
-            for (int i = 1; i <= studentQuantity; i++)
-            {
-                Console.Write("Student name: ");
-                studentList.Add(Console.ReadLine());
                 Console.Clear();
+
+                studentList = AddStudents(studentQuantity);
+                studentGroups = StudentSort(studentList);
+                Console.WriteLine(GroupDisplay(studentGroups));
+
+                bool endMenu = false;
+
+                do
+                {
+                    Console.WriteLine("What would you like to do?\n" +
+                            "R)esort List\n" +
+                            "N)ew List\n" +
+                            "E)nd Program");
+                    ConsoleKey menuChoice = Console.ReadKey(true).Key;
+
+                    switch (menuChoice)
+                    {
+                        case ConsoleKey.R:
+                            Console.Clear();
+                            studentGroups = StudentSort(studentList);
+                            Console.WriteLine(GroupDisplay(studentGroups));
+                            break;
+
+                        case ConsoleKey.N:
+                            endMenu = true;
+                            break;
+
+                        case ConsoleKey.E:
+                            endMenu = true;
+                            endProgram = true;
+                            break;
+
+                        default:
+                            Console.Clear();
+                            Console.WriteLine($"{menuChoice} was not a valid option. Please choose again.");
+                            break;
+                    }
+                } while (!endMenu);
+                Console.Clear();
+            } while (!endProgram);
+            Console.WriteLine("Closing Pairing Tool");
+        }//end Main()
+
+        static List<string> AddStudents(int studentNumber)
+        {
+            Console.Clear();
+            List<string> students = new List<string>();
+
+            for (int i = 1; i <= studentNumber; i++)
+            {
+                bool exit = false;
+                do
+                {
+                    Console.Title = $"Student {i} of {studentNumber}";
+                    Console.Write($"Student {i}'s name: ");
+                    string studentName = Console.ReadLine().Trim();
+                    
+                    if (studentName.Length > 0)
+                    {
+                        students.Add(studentName);
+                        exit = true;
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Student name must contain at least one character.");
+                    }
+                } while (!exit);
+            }
+            return students;
+        }
+
+        static List<string> StudentSort(List<string> students)
+        {
+            Console.Title = "Your list of student pairs.";
+            List<string> groupings = new List<string>();
+            List<string> workingList = new List<string>();
+
+            foreach (string name in students)
+            {
+                workingList.Add(name);
             }
 
-            //foreach (string student in studentList)
-            //{
-            //    Console.WriteLine(student);
-            //}
+            Random rand = new Random();
 
-            while (studentList.Count > 0)
+            while (workingList.Count > 0)
             {
-                if (studentList.Count == 3)
+                if (workingList.Count == 3)
                 {
-                    studentGroups.Add(studentList[0] + ", " + studentList[1] + ", and " + studentList[2]);
-                    studentList.Clear();
+                    groupings.Add(workingList[0] + ", " + workingList[1] + ", and " + workingList[2]);
+                    workingList.Clear();
                 }
                 else
                 {
-                    int indexOne = rand.Next(studentList.Count);
-                    string firstStudent = studentList[indexOne];
-                    studentList.Remove(studentList[indexOne]);
+                    int indexOne = rand.Next(workingList.Count);
+                    string firstStudent = workingList[indexOne];
+                    workingList.Remove(workingList[indexOne]);
 
-                    int indexTwo = rand.Next(studentList.Count);
-                    string secondStudent = studentList[indexTwo];
-                    studentList.Remove(studentList[indexTwo]);
+                    int indexTwo = rand.Next(workingList.Count);
+                    string secondStudent = workingList[indexTwo];
+                    workingList.Remove(workingList[indexTwo]);
 
-                    studentGroups.Add(firstStudent + " and " + secondStudent);
+                    groupings.Add(firstStudent + " and " + secondStudent);
                 }
             }
+            return groupings;
+        }
 
-            Console.WriteLine("Your groups are:");
+        static string GroupDisplay(List<string> studentGroups)
+        {
+            string groupInfo = "Your groups are:\n";
+            int count = 1;
+
             foreach (string group in studentGroups)
             {
-                Console.WriteLine($"{count}) {group}");
+                groupInfo += $"{count}) {group}\n";
                 count++;
             }
 
+            return groupInfo;
         }
     }
 }
