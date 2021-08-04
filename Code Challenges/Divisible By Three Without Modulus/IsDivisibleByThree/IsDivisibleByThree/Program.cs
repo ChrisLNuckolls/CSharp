@@ -9,7 +9,6 @@ namespace IsDivisibleByThree
     /*
     This program takes input from a user and determines if the total of the numbers is divisible by 3
     without using modulus.
-
     TODO - modify functionality to check for divisibility by any single-digit number.
     */
     class Program
